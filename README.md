@@ -2,8 +2,8 @@
 
 **Alunos**
 
-· Diego Meira                            RA: 1109435
-· Eduardo Barreda Mello   RA: 1138704
+- Diego Meira                            RA: 1109435
+- Eduardo Barreda Mello   RA: 1138704
 
 ---
 
