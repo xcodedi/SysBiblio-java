@@ -9,46 +9,93 @@ public class LivroService {
     public void cadastrar(Livro novoLivro) throws Exception {
 
         if (novoLivro == null)
-            throw new Exception("Objeto Nulo");
-        //Estou validando o Título
-        if (novoLivro.getTitulo() == null || novoLivro.getTitulo().isEmpty())
-            throw new Exception("Título inválido!!!");
-        //Estou formatando o Título
-        novoLivro.setTitulo(novoLivro.getTitulo().trim().toUpperCase());
+            throw new Exception("Objeto nulo");
 
-        //TODO fazer mesma validação e formatação para Autor
+        validarLivro(novoLivro);
 
-
-        if (novoLivro.getAnoPublicacao() < 1900
-                || novoLivro.getAnoPublicacao() > LocalDate.now().getYear())
-            throw new Exception("Ano de publicação inválido");
         for (Livro livro : acervo) {
             if (livro.getTitulo().equalsIgnoreCase(novoLivro.getTitulo())
                     && livro.getAutor().equalsIgnoreCase(novoLivro.getAutor())
-                    && livro.getAnoPublicacao() == novoLivro.getAnoPublicacao())
-                throw new Exception("Já existe livro cadastrado com este Título, Autor e Ano de publicação");
+                    && livro.getAnoPublicacao() == novoLivro.getAnoPublicacao()) {
+                throw new Exception("Livro já cadastrado");
+            }
         }
 
-        //Nesta parte estaria chamando a camada Repository
-        // Neste exemplo não usaremos Repositórios
         acervo.add(novoLivro);
-
     }
 
     public List<Livro> listar() {
-        //ordenar
         return acervo;
     }
 
-    public List<Livro> pesquisar(String titulo) {
-        List<Livro> livrosEncontrados = new ArrayList<>();
+    public void remover(int index) throws Exception {
+        if (index < 0 || index >= acervo.size())
+            throw new Exception("Índice inválido");
+
+        acervo.remove(index);
+    }
+
+    public void editar(int index, Livro livroAtualizado) throws Exception {
+        if (index < 0 || index >= acervo.size())
+            throw new Exception("Índice inválido");
+
+        validarLivro(livroAtualizado);
+
+        acervo.set(index, livroAtualizado);
+    }
+
+    private void validarLivro(Livro livro) throws Exception {
+
+        if (livro.getTitulo() == null || livro.getTitulo().isEmpty())
+            throw new Exception("Título inválido");
+
+        livro.setTitulo(livro.getTitulo().trim().toUpperCase());
+
+        if (livro.getAutor() == null || livro.getAutor().isEmpty())
+            throw new Exception("Autor inválido");
+
+        livro.setAutor(livro.getAutor().trim().toUpperCase());
+
+        if (livro.getAnoPublicacao() < 1900
+                || livro.getAnoPublicacao() > LocalDate.now().getYear())
+            throw new Exception("Ano inválido");
+
+        if (livro.getNumeroPaginas() <= 0)
+            throw new Exception("Número de páginas inválido");
+    }
+
+    public List<Livro> pesquisarPorTitulo(String titulo) {
+        List<Livro> resultado = new ArrayList<>();
         titulo = titulo.toUpperCase();
 
         for (Livro livro : acervo) {
             if (livro.getTitulo().contains(titulo))
-                livrosEncontrados.add(livro);
+                resultado.add(livro);
         }
-        return livrosEncontrados;
+
+        return resultado;
     }
 
+    public List<Livro> pesquisarPorAutor(String autor) {
+        List<Livro> resultado = new ArrayList<>();
+        autor = autor.toUpperCase();
+
+        for (Livro livro : acervo) {
+            if (livro.getAutor().contains(autor))
+                resultado.add(livro);
+        }
+
+        return resultado;
+    }
+
+    public List<Livro> pesquisarPorAno(int ano) {
+        List<Livro> resultado = new ArrayList<>();
+
+        for (Livro livro : acervo) {
+            if (livro.getAnoPublicacao() == ano)
+                resultado.add(livro);
+        }
+
+        return resultado;
+    }
 }

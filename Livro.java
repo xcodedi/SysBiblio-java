@@ -1,4 +1,3 @@
-
 public class Livro {
     private String titulo;
     private String autor;
@@ -6,7 +5,6 @@ public class Livro {
     private int numeroPaginas;
 
     public Livro() {
-
     }
 
     public Livro(String titulo, String autor, int anoPublicacao, int numeroPaginas) {
@@ -48,12 +46,11 @@ public class Livro {
         this.numeroPaginas = numeroPaginas;
     }
 
-    @Override //annotations
+    @Override
     public String toString() {
-        return "Título: " + this.titulo
-                + " | Autor: " + this.autor
-                + " | Ano: " + this.anoPublicacao
-                + " | N. Pag.: " + this.numeroPaginas; 
+        return "Título: " + titulo +
+                " | Autor: " + autor +
+                " | Ano: " + anoPublicacao +
+                " | Páginas: " + numeroPaginas;
     }
-
 }

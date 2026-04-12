@@ -1,8 +1,6 @@
 import java.util.List;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-//Dependências
 LivroService service = new LivroService();
 
 void main() {
@@ -11,54 +9,110 @@ void main() {
             1 - Cadastrar Livro
             2 - Listar Livros
             3 - Pesquisar Livro
+            4 - Remover Livro
+            5 - Editar Livro
             0 - Sair
             """;
 
     int opcao;
+
     do {
         IO.println(menu);
         opcao = Input.scanInt("Digite uma opção: ");
+
         try {
             switch (opcao) {
                 case 1 -> cadastrar();
                 case 2 -> listar();
                 case 3 -> pesquisar();
-                case 0 -> IO.println("Até breve!!!");
-                default -> IO.println("Opção Inválida");
+                case 4 -> remover();
+                case 5 -> editar();
+                case 0 -> IO.println("Até breve!");
+                default -> IO.println("Opção inválida");
             }
         } catch (Exception e) {
             IO.println("ERRO: " + e.getMessage());
         }
-        IO.readln("Pressione Enter para continuar...");
+
+        IO.readln("Pressione Enter...");
     } while (opcao != 0);
 }
 
 void cadastrar() throws Exception {
-    String titulo = Input.scanString("Digite o título do livro: ");
-    String autor = Input.scanString("Digite o autor do livro: ");
-    int anoPublicacao = Input.scanInt("Digite o ano de publicação do livro: ");
-    int numeroPaginas = Input.scanInt("Digite o número de páginas do livro: ");
+    String titulo = Input.scanString("Título: ");
+    String autor = Input.scanString("Autor: ");
+    int ano = Input.scanInt("Ano: ");
+    int paginas = Input.scanInt("Páginas: ");
 
-    Livro novoLivro = new Livro(titulo, autor, anoPublicacao, numeroPaginas);
+    Livro livro = new Livro(titulo, autor, ano, paginas);
 
-    service.cadastrar(novoLivro);
-    
-    IO.println("Livro cadastrado com sucesso!!!");
+    service.cadastrar(livro);
+
+    IO.println("Livro cadastrado com sucesso!");
 }
 
 void listar() {
-
     List<Livro> livros = service.listar();
+    imprimirLista(livros);
+}
 
+void remover() throws Exception {
+    List<Livro> livros = service.listar();
     imprimirLista(livros);
 
+    int index = Input.scanInt("Digite o número do livro: ") - 1;
+
+    service.remover(index);
+
+    IO.println("Livro removido!");
+}
+
+void editar() throws Exception {
+    List<Livro> livros = service.listar();
+    imprimirLista(livros);
+
+    int index = Input.scanInt("Digite o número do livro: ") - 1;
+
+    String titulo = Input.scanString("Novo título: ");
+    String autor = Input.scanString("Novo autor: ");
+    int ano = Input.scanInt("Novo ano: ");
+    int paginas = Input.scanInt("Novas páginas: ");
+
+    Livro atualizado = new Livro(titulo, autor, ano, paginas);
+
+    service.editar(index, atualizado);
+
+    IO.println("Livro atualizado!");
 }
 
 void pesquisar() {
+    String menu = """
+            1 - Por título
+            2 - Por autor
+            3 - Por ano
+            """;
 
-    String pesquisa = Input.scanString("Digite parte do título: ");
-    
-    List<Livro> livros = service.pesquisar(pesquisa);
+    IO.println(menu);
+
+    int op = Input.scanInt("Escolha: ");
+
+    List<Livro> livros = new ArrayList<>();
+
+    switch (op) {
+        case 1 -> {
+            String titulo = Input.scanString("Digite o título: ");
+            livros = service.pesquisarPorTitulo(titulo);
+        }
+        case 2 -> {
+            String autor = Input.scanString("Digite o autor: ");
+            livros = service.pesquisarPorAutor(autor);
+        }
+        case 3 -> {
+            int ano = Input.scanInt("Digite o ano: ");
+            livros = service.pesquisarPorAno(ano);
+        }
+        default -> IO.println("Opção inválida");
+    }
 
     imprimirLista(livros);
 }
@@ -71,7 +125,6 @@ void imprimirLista(List<Livro> livros) {
 
     int i = 1;
     for (Livro livro : livros) {
-        IO.println(i++  + " - " + livro);
-        //IO.println(i++  + " - " + livro.toString());
+        IO.println(i++ + " - " + livro);
     }
 }
