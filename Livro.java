@@ -3,15 +3,21 @@ public class Livro {
     private String autor;
     private int anoPublicacao;
     private int numeroPaginas;
-
+    private String genero;
     public Livro() {
     }
 
-    public Livro(String titulo, String autor, int anoPublicacao, int numeroPaginas) {
+        public Livro(String titulo, String autor, int anoPublicacao, int numeroPaginas, String genero) {
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
         this.numeroPaginas = numeroPaginas;
+        this.genero = genero;
+
+    }
+
+    public String getGenero() {
+        return genero;
     }
 
     public String getTitulo() {
@@ -48,9 +54,10 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Título: " + titulo +
+        return "Título: " + titulo + 
                 " | Autor: " + autor +
                 " | Ano: " + anoPublicacao +
-                " | Páginas: " + numeroPaginas;
+                " | Páginas: " + numeroPaginas +
+                " | Gênero: " + genero;
     }
 }

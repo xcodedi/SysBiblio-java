@@ -43,8 +43,10 @@ void cadastrar() throws Exception {
     String autor = Input.scanString("Autor: ");
     int ano = Input.scanInt("Ano: ");
     int paginas = Input.scanInt("Páginas: ");
+    String genero = Input.scanString("Gênero: ");
 
-    Livro livro = new Livro(titulo, autor, ano, paginas);
+
+    Livro livro = new Livro(titulo, autor, ano, paginas, genero);
 
     service.cadastrar(livro);
 
@@ -77,8 +79,9 @@ void editar() throws Exception {
     String autor = Input.scanString("Novo autor: ");
     int ano = Input.scanInt("Novo ano: ");
     int paginas = Input.scanInt("Novas páginas: ");
+    String genero = Input.scanString("Novo gênero: ");
 
-    Livro atualizado = new Livro(titulo, autor, ano, paginas);
+    Livro atualizado = new Livro(titulo, autor, ano, paginas, genero);
 
     service.editar(index, atualizado);
 
@@ -115,6 +118,16 @@ void pesquisar() {
     }
 
     imprimirLista(livros);
+
+    if (!livros.isEmpty()) {
+        String genero = livros.get(0).getGenero();
+
+        IO.println("\nSugestões do mesmo gênero (" + genero + "):");
+
+        List<Livro> sugestoes = service.buscarPorGenero(genero);
+
+        imprimirLista(sugestoes);
+    }
 }
 
 void imprimirLista(List<Livro> livros) {

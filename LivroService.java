@@ -98,4 +98,18 @@ public class LivroService {
 
         return resultado;
     }
+
+    public List<Livro> buscarPorGenero(String genero) {
+    List<Livro> resultado = new ArrayList<>();
+
+        for (Livro livro : acervo) {
+            if (livro.getGenero().equalsIgnoreCase(genero)) {
+                resultado.add(livro);
+           }
+        }
+
+        return resultado;
+    }
+
+
 }
