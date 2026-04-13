@@ -20,6 +20,10 @@ Sistema simples de biblioteca em Java via terminal, permitindo cadastrar, listar
 * Pesquisar livros por título
 
 ---
+⭐ Melhoria livre
+* Genero aos livros cadastrados
+- Pesquisa de livros sugere livros do mesmo genero a quem pesquisa, com uma listra extra alem de informar o livro pesquisado.
+
 
 ## 🚀 Observação
 
